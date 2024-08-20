@@ -38,15 +38,13 @@ def predict():
         return jsonify({'error': 'No selected file'}), 400
 
     if file:
-        url = "https://lh3.googleusercontent.com/p/AF1QipM7rA0ElWYm57zdH6QVsrnTEEmPOP1F9xqiaS0H=s1360-w1360-h1020"
-        img = Image.open(requests.get(url, stream=True).raw)
-        # img = Image.open(io.BytesIO(file.read()))
-        img = preprocess_image(img)
+        img = Image.open(io.BytesIO(file.read()))
+        # img = preprocess_image(img)
         
-        prediction = model.predict(img)
-        predicted_class = np.argmax(prediction, axis=1)[0]
+        # prediction = model.predict(img)
+        # predicted_class = np.argmax(prediction, axis=1)[0]
 
-        return jsonify({'prediction': int(predicted_class)})
+        return jsonify({'prediction':img})
     
     return jsonify({'error': 'Unable to process the image'}), 400
 
