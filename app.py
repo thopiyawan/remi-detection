@@ -43,9 +43,9 @@ def predict():
  img = Image.open(io.BytesIO(file.read()))
  img = preprocess_image(img)
         
-prediction = model.predict(img)
-predicted_class = np.argmax(prediction, axis=1)[0]
-return jsonify({'prediction': int(predicted_class)})
+ prediction = model.predict(img)
+ predicted_class = np.argmax(prediction, axis=1)[0]
+ return jsonify({'prediction': int(predicted_class)})
     
     # return jsonify({'error': 'Unable to process the image'}), 400
 
