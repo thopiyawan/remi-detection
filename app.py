@@ -32,7 +32,7 @@ def preprocess_image(img):
     img = img / 255.0  # Normalization
     return img
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST','GET'])
 def predict():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
