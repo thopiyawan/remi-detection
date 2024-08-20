@@ -1,31 +1,29 @@
 from flask import Flask, request, jsonify
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
 import io
+import gdown
+import os
 
 app = Flask(__name__)
 
 # โหลดโมเดลที่บันทึกไว้
-model = load_model('my_model.h5')
 
+# Google Drive URL สำหรับไฟล์โมเดล
+url = 'https://drive.google.com/uc?id=1d1w2HzWzYvIBNPvZSeSBlzRy7rNZQMzQ'
 
-# Function สำหรับดาวน์โหลดโมเดลจาก Google Drive
-def download_model_from_gdrive(model_id, destination):
-    url = f"https://drive.google.com/uc?id={model_id}&export=download"
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(destination, 'wb') as f:
-            f.write(response.content)
-    else:
-        raise Exception("Failed to download model from Google Drive.")
+# ชื่อไฟล์โมเดล
+output = 'model_inceptionV3.h5'
 
-# ใช้ GDrive ID ของโมเดลที่เก็บไว้
-model_id = '1d1w2HzWzYvIBNPvZSeSBlzRy7rNZQMzQ'
-model_path = '/content/drive/MyDrive/detect-food/model_inceptionV3.h5'  # เก็บไฟล์โมเดลใน temporary directory
-download_model_from_gdrive(model_id, model_path)
+# ตรวจสอบว่าไฟล์โมเดลมีอยู่แล้วหรือไม่ ถ้าไม่มีก็ดาวน์โหลดจาก Google Drive
+if not os.path.exists(output):
+    gdown.download(url, output, quiet=False)
 
+# โหลดโมเดลจากไฟล์ที่ดาวน์โหลดมา
+model = load_model(output)
 
 def preprocess_image(img):
     img = img.resize((224, 224))  # ปรับขนาดภาพให้ตรงกับขนาดที่โมเดลต้องการ
@@ -56,4 +54,5 @@ def predict():
     return jsonify({'error': 'Unable to process the image'}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # app.run(debug=True, port=5000)
+     app.run()
