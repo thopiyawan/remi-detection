@@ -43,7 +43,7 @@ def predict():
         
         prediction = model.predict(img)
         predicted_class = np.argmax(prediction, axis=1)[0]
-        print(f'Predicted class: {predicted_class}')
+        return jsonify({'prediction': int(predicted_class)})
     
     return jsonify({'error': 'Unable to process the image'}), 400
 
