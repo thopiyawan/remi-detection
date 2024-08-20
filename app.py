@@ -47,7 +47,7 @@ def predict():
  predicted_class = np.argmax(prediction, axis=1)[0]
  return jsonify({'prediction': int(predicted_class)})
     
-return jsonify({'error': 'Unable to process the image'}), 400
+# return jsonify({'error': 'Unable to process the image'}), 400
 
 if __name__ == '__main__':
     # app.run(debug=True, port=5000)
