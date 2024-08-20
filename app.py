@@ -7,6 +7,7 @@ from PIL import Image
 import io
 import gdown
 import os
+import requests
 
 app = Flask(__name__)
 # Google Drive URL สำหรับไฟล์โมเดล
@@ -38,15 +39,15 @@ def preprocess_image(img):
 #         return jsonify({'error': 'No selected file'}), 400
 
 #     if file:
-    img = Image.open(requests.get("https://lh3.googleusercontent.com/p/AF1QipM7rA0ElWYm57zdH6QVsrnTEEmPOP1F9xqiaS0H=s1360-w1360-h1020", stream=True).raw)
-    # img = Image.open(io.BytesIO(file.read()))
-    img = preprocess_image(img)
+ img = Image.open(requests.get("https://lh3.googleusercontent.com/p/AF1QipM7rA0ElWYm57zdH6QVsrnTEEmPOP1F9xqiaS0H=s1360-w1360-h1020", stream=True).raw)
+ img = Image.open(io.BytesIO(file.read()))
+ img = preprocess_image(img)
         
-    prediction = model.predict(img)
-    predicted_class = np.argmax(prediction, axis=1)[0]
-    return jsonify({'prediction': int(predicted_class)})
+ prediction = model.predict(img)
+ predicted_class = np.argmax(prediction, axis=1)[0]
+ return jsonify({'prediction': int(predicted_class)})
     
-    return jsonify({'error': 'Unable to process the image'}), 400
+    # return jsonify({'error': 'Unable to process the image'}), 400
 
 if __name__ == '__main__':
     # app.run(debug=True, port=5000)
