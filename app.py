@@ -40,7 +40,7 @@ def predict():
 
 #     if file:
  img = Image.open(requests.get("https://lh3.googleusercontent.com/p/AF1QipM7rA0ElWYm57zdH6QVsrnTEEmPOP1F9xqiaS0H=s1360-w1360-h1020", stream=True).raw)
- img = Image.open(io.BytesIO(file.read()))
+ # img = Image.open(io.BytesIO(file.read()))
  img = preprocess_image(img)
         
  prediction = model.predict(img)
