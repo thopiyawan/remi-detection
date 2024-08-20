@@ -28,22 +28,23 @@ def preprocess_image(img):
     return img
 
 @app.route('/predict', methods=['POST','GET'])
-def predict():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
+# def predict():
+#     if 'file' not in request.files:
+#         return jsonify({'error': 'No file part'}), 400
     
-    file = request.files['file']
+#     file = request.files['file']
 
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+#     if file.filename == '':
+#         return jsonify({'error': 'No selected file'}), 400
 
-    if file:
-        img = Image.open(io.BytesIO(file.read()))
-        img = preprocess_image(img)
+#     if file:
+    img = Image.open(requests.get("https://lh3.googleusercontent.com/p/AF1QipM7rA0ElWYm57zdH6QVsrnTEEmPOP1F9xqiaS0H=s1360-w1360-h1020", stream=True).raw)
+    # img = Image.open(io.BytesIO(file.read()))
+    img = preprocess_image(img)
         
-        prediction = model.predict(img)
-        predicted_class = np.argmax(prediction, axis=1)[0]
-        return jsonify({'prediction': int(predicted_class)})
+    prediction = model.predict(img)
+    predicted_class = np.argmax(prediction, axis=1)[0]
+    return jsonify({'prediction': int(predicted_class)})
     
     return jsonify({'error': 'Unable to process the image'}), 400
 
