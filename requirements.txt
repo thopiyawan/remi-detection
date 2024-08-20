@@ -1,4 +1,4 @@
-Flask==2.1.1
-tensorflow==2.12.0
+Flask==3.0.3
+tensorflow-cpu
 pillow==9.3.0
 gunicorn==20.1.0
