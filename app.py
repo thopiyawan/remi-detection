@@ -9,15 +9,10 @@ import gdown
 import os
 
 app = Flask(__name__)
-
-# โหลดโมเดลที่บันทึกไว้
-
 # Google Drive URL สำหรับไฟล์โมเดล
 url = 'https://drive.google.com/uc?id=1d1w2HzWzYvIBNPvZSeSBlzRy7rNZQMzQ'
-
 # ชื่อไฟล์โมเดล
 output = 'model_inceptionV3.h5'
-
 # ตรวจสอบว่าไฟล์โมเดลมีอยู่แล้วหรือไม่ ถ้าไม่มีก็ดาวน์โหลดจาก Google Drive
 if not os.path.exists(output):
     gdown.download(url, output, quiet=False)
@@ -43,7 +38,9 @@ def predict():
         return jsonify({'error': 'No selected file'}), 400
 
     if file:
-        img = Image.open(io.BytesIO(file.read()))
+        url = "https://lh3.googleusercontent.com/p/AF1QipM7rA0ElWYm57zdH6QVsrnTEEmPOP1F9xqiaS0H=s1360-w1360-h1020"
+        img = Image.open(requests.get(url, stream=True).raw)
+        # img = Image.open(io.BytesIO(file.read()))
         img = preprocess_image(img)
         
         prediction = model.predict(img)
